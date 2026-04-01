@@ -139,7 +139,7 @@ policy_groups:
       policies: [全部节点]
       flatten: true
       filter: "(?i)🇪🇺|欧洲|EU|Europe|德国|法国|荷兰|英国|瑞士|DE|FR|NL|UK|GB|CH"
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Singapore.png
+      icon: https://raw.githubusercontent.com/0000ACED/xrule/main/image/European_Union.png
 
   # - select:
   #     name: 其他节点
