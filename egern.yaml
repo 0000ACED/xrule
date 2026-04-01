@@ -1,0 +1,450 @@
+---
+
+# 是否启用 IPv6。默认值是 false
+ipv6: false
+
+# HTTP 代理端口号。默认值是 3080
+http_port: 3080
+
+# SOCKS 代理端口号。默认值是 3090
+socks_port: 3090
+
+# 允许外部连接通过 Wi-Fi 访问设备上的代理。默认值是 false
+allow_external_connections: false
+
+# 仅虚拟网接口模式。默认值是 false
+vif_only: true
+
+# 全局阻止 QUIC 协议，强制使用 TCP 连接。默认值是 false
+# 优先级：代理 > 策略组 > 全局。代理自身的 block_quic 优先级最高，
+# 其次是策略组的 block_quic，最后是此全局设置。
+# 若三者均未设置，则使用协议默认值（TCP 类协议默认阻止，UDP 类协议默认放行）。
+block_quic: false
+
+# 绕过隧道代理的域名列表。默认值是空数组
+# bypass_tunnel_proxy:
+#   - "*.local"
+#   - "192.168.0.0/16"
+
+# 使用真实 IP 的域名列表（不使用 Fake IP）。默认值是空数组
+real_ip_domains:
+  - "*.lan"
+  - "*.push.apple.com"
+
+# 隐藏 VPN 图标。默认值是 false
+hide_vpn_icon: false
+
+# 劫持 DNS 的地址列表。默认值是空数组
+hijack_dns:
+  - '*:53'
+
+# 指定自定义的 GeoIP 数据库 URL。默认值是空
+geoip_db_url: https://raw.githubusercontent.com/Loyalsoldier/geoip/release/Country.mmdb
+
+# 指定自定义的 ASN 数据库 URL。默认值是空
+asn_db_url: https://raw.githubusercontent.com/Loyalsoldier/geoip/release/GeoLite2-ASN.mmdb
+
+
+# 自定义的代理延迟测试 URL。默认值是空
+proxy_latency_test_url: http://www.gstatic.com/generate_204
+
+# 自定义的直连延迟测试 URL。默认值是空
+direct_latency_test_url: http://www.apple.com/library/test/success.html
+
+# 兼容路由模式。默认值是 false
+compat_route: false
+
+# 包含所有网络流量。默认值是 false
+include_all_networks: false
+
+# 包含 APNs 流量（需 include_all_networks 启用）。默认值是 false
+include_apns: false
+
+# 包含蜂窝网络服务流量（需 include_all_networks 启用）。默认值是 false
+include_cellular_services: false
+
+# 包含本地网络流量（需 include_all_networks 启用）。默认值是 false
+include_local_networks: false
+
+# 虚拟接口包含的路由。默认值是空数组
+# vif_included_routes:
+#   - 192.168.0.1/32
+
+# 虚拟接口排除的路由。默认值是空数组
+vif_excluded_routes:
+  - 10.0.0.0/8
+  - 172.16.0.0/12
+  - 192.168.0.0/16
+
+dns:
+  bootstrap:
+    - system
+    - 223.5.5.5
+    - 119.29.29.29
+  upstreams:
+    # google:
+    #   - https://8.8.8.8/dns-query
+    #   - https://8.8.4.4/dns-query
+    default:
+      - https://doh.pub/dns-query
+      - h3://dns.alidns.com/dns-query
+  forward:
+    - domain_wildcard:
+        match: '*.cn'
+        value: bootstrap
+    - proxy_rule_set:
+        match: https://github.com/ACL4SSR/ACL4SSR/raw/master/Clash/ChinaDomain.list
+        value: bootstrap
+    # - regex:
+    #     match: ^ad\..*|^ads\..*
+    #     value: reject
+    - domain_wildcard:
+        match: '*'
+        value: default
+  # hosts:
+  #   localhost: 127.0.0.1
+  # block_ips:
+  #   - 1.2.3.4
+  #   - 4.3.2.1/32
+  public_ip_lookup_url: https://ifconfig.me/ip
+
+# 策略组配置列表
+policy_groups:
+  - external:
+      name: 全部节点
+      type: select
+      urls:
+        - provider_url
+      filter: ^
+      update_interval: 86400
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/WorldMap.png
+      hidden: false
+
+  - select:
+      name: 美国节点
+      policies: [全部节点]
+      flatten: true
+      filter: "(?i)🇺🇸|美国|United\\s*States|America|\\bUSA?\\b|洛杉矶|硅谷|西雅图|芝加哥|达拉斯|凤凰城|阿什本|纽约|迈阿密|波士顿|休斯顿|亚特兰大|拉斯维加斯|圣地亚哥|盐湖城|奥斯汀|波特兰|丹佛|奥克兰|安大略|圣安娜|\\b(?:LAX|SJC|SFO|SEA|ORD|JFK|DFW|IAD|PHX|ATL|BOS|MIA|EWR|LGA|IAH|HOU|DEN|OAK|ONT|SNA|LAS|PDX|DAL|SAN|SLC|MSP)\\b"
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/UnitedStates.png
+
+  - select:
+      name: 日本节点
+      policies: [全部节点]
+      flatten: true
+      filter: "(?i)🇯🇵|日本|东京|大阪|Japan|\\b(?:JPN?|NRT|HND|KIX|FUK|NGO|OSA|CTS|SDJ|OKA)\\b"
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Japan.png
+
+  - select:
+      name: 欧洲节点
+      policies: [全部节点]
+      flatten: true
+      filter: "(?i)🇪🇺|欧洲|EU|Europe|德国|法国|荷兰|英国|瑞士|DE|FR|NL|UK|GB|CH"
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Singapore.png
+
+  # - select:
+  #     name: 其他节点
+  #     policies: [全部节点]
+  #     flatten: true
+  #     filter: >-
+  #       (?xi) ^ (?! .* (?:
+  #         🇯🇵|日本|东京|大阪|Japan|\b(?:JPN?|NRT|HND|KIX|FUK|NGO|OSA|CTS|SDJ|OKA)\b|
+  #         🇺🇸|美国|United\s*States|America|\bUSA?\b|
+  #         洛杉矶|硅谷|西雅图|芝加哥|达拉斯|凤凰城|阿什本|纽约|迈阿密|波士顿|休斯顿|亚特兰大|拉斯维加斯|圣地亚哥|盐湖城|奥斯汀|波特兰|丹佛|奥克兰|安大略|圣安娜|
+  #         \b(?:LAX|SJC|SFO|SEA|ORD|JFK|DFW|IAD|PHX|ATL|BOS|MIA|EWR|LGA|IAH|HOU|DEN|OAK|ONT|SNA|LAS|PDX|DAL|SAN|SLC|MSP)\b|
+  #         倍率|剩余|到期|流量|官网|订阅|测试|有效|禁止|邮箱|客服|地址|网站|群组
+  #       ) ) .+ $
+  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/WorldMap.png
+
+  - select:
+      name: 节点选择
+      policies: [美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      icon: 😜
+
+  - select:
+      name: Apple
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Apple.png
+
+  - select:
+      name: AIGC
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/ChatGPT.png
+
+  # - select:
+  #     name: Bing
+  #     policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+  #     flatten: false
+  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Bing.png
+  # - select:
+  #     name: Disney
+  #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点]
+  #     flatten: false
+  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Disney.png
+  # - select:
+  #     name: HBO
+  #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点]
+  #     flatten: false
+  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/HBO.png
+  # - select:
+  #     name: Netflix
+  #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点]
+  #     flatten: false
+  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Netflix.png
+  - select:
+      name: Spotify
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Spotify.png
+  - select:
+      name: TikTok
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/TikTok.png
+  # - select:
+  #     name: YouTubeMusic
+  #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+  #     flatten: false
+  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/YouTubeMusic.png
+  - select:
+      name: YouTube
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/YouTube.png
+  - select:
+      name: GitHub
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/GitHub.png
+  - select:
+      name: Google
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Google.png
+  # - select:
+  #     name: Microsoft
+  #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+  #     flatten: false
+  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Microsoft.png
+  - select:
+      name: PayPal
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/PayPal.png
+  - select:
+      name: Telegram
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Telegram.png
+  - select:
+      name: Twitter
+      policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Twitter.png
+  # - select:
+  #     name: WeChat
+  #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+  #     flatten: false
+  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/WeChat.png
+  - select:
+      name: AdBlock
+      policies: [REJECT, DIRECT]
+      flatten: false
+      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/AdBlock.png  
+
+
+# 代理规则列表
+rules:
+  # 广告拦截
+  - rule_set:
+      match: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/Egern/Rule/AdBlock.yaml
+      policy: AdBlock
+
+  # 国内兜底
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/ChinaMax/ChinaMax.list
+      policy: DIRECT
+  - geoip:
+      match: CN
+      policy: DIRECT
+      no_resolve: true
+
+  # 局域网与系统直连
+  - rule_set:
+      match: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/Egern/Rule/Lan.yaml
+      policy: DIRECT
+  - domain_suffix:
+      match: ntp.org
+      policy: DIRECT
+  - domain_suffix:
+      match: time.apple.com
+      policy: DIRECT
+  - domain_suffix:
+      match: time.android.com
+      policy: DIRECT
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Apple/Apple.list
+      policy: Apple
+
+  # AI 服务
+  - rule_set:
+      match: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/Egern/Rule/AIGC.yaml
+      policy: AIGC
+
+  # 流媒体服务
+  # - rule_set:
+  #     match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Disney/Disney.list
+  #     policy: Disney
+  # - rule_set:
+  #     match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/HBO/HBO.list
+  #     policy: HBO
+  # - rule_set:
+  #     match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Netflix/Netflix.list
+  #     policy: Netflix
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Spotify/Spotify.list
+      policy: Spotify
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/TikTok/TikTok.list
+      policy: TikTok
+  # - rule_set:
+  #     match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/YouTubeMusic/YouTubeMusic.list
+  #     policy: YouTubeMusic
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/YouTube/YouTube.list
+      policy: YouTube
+
+  # 常用工具
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/GitHub/GitHub.list
+      policy: GitHub
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Google/Google.list
+      policy: Google
+  # - rule_set:
+  #     match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Microsoft/Microsoft.list
+  #     policy: Microsoft
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/PayPal/PayPal.list
+      policy: PayPal
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Telegram/Telegram.list
+      policy: Telegram
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Twitter/Twitter.list
+      policy: Twitter
+  # - rule_set:
+  #     match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/WeChat/WeChat.list
+  #     policy: WeChat
+
+  # 全局兜底
+  - default:
+      policy: 节点选择
+
+
+# URL 重写列表
+# url_rewrites:
+#   - match: "(.*google)\\.cn"
+#     location: $1.com
+#     status_code: 307
+
+# HTTP 头部重写列表
+# header_rewrites:
+#   - add:
+#       match: "^https://example\\.com"
+#       name: X-Custom-Header
+#       value: custom-value
+#       type: request
+#   - replace:
+#       match: "^https://example\\.com"
+#       name: Cache-Control
+#       value: no-cache
+#       type: response
+#   - delete:
+#       match: "^https://example\\.com"
+#       name: X-Tracking-Id
+#       type: request
+
+# HTTP 消息体重写列表
+# body_rewrites:
+#   # 响应体正则替换
+#   - response_regex:
+#       match: "^https://example\\.com"
+#       find: old_content
+#       replace: new_content
+#   # 请求体 jq 过滤器
+#   - request_jq:
+#       match: "^https://api\\.example\\.com/submit"
+#       filter: '.data.version = "2.0"'
+
+# 脚本配置列表
+# scriptings:
+#   - http_request:
+#       name: HTTP Script 1
+#       match: "^https://example\\.com"
+#       script_url: "https://example.com/scripts/request.js"
+#       update_interval: 86400
+#       max_size: 131072
+#       timeout: 30
+#       body_required: false
+#   - http_response:
+#       name: HTTP Script 2
+#       match: "^https://example\\.com"
+#       script_url: "https://example.com/scripts/response.js"
+#       update_interval: 86400
+#       max_size: 131072
+#       timeout: 30
+#       body_required: false
+#   - schedule:
+#       name: Scheduled Script 1
+#       cron: "0 8 * * *"
+#       script_url: "https://example.com/scripts/task.js"
+#       update_interval: 86400
+#       timeout: 30
+#   - generic:
+#       name: Widget Script 1
+#       script_url: "https://example.com/scripts/widget.js"
+#       env:
+#         API_KEY: "your_api_key"
+#   - network:
+#       name: Network Script 1
+#       script_url: "https://example.com/scripts/network.js"
+
+# Map Local 配置。将匹配的 URL 请求映射到本地自定义响应
+# map_locals:
+#   - match: "^https://api\\.example\\.com/mock$"
+#     status_code: 200
+#     headers:
+#       Content-Type: application/json
+#     body: '{"code": 0, "message": "ok"}'
+
+# MITM 配置。中间人解密，用于修改 HTTPS 流量（URL 重写、头部/消息体重写、脚本等）
+mitm:
+  ca_p12: egern.p12
+  ca_passphrase: egern
+  hostnames:
+    # includes:
+    #   - "*.example.com"
+    excludes:
+      - buy.itunes.apple.com
+
+# HTTP 抓包配置列表
+# http_captures:
+#   - "*.example.com"
+
+# 小组件配置。在主屏幕和锁定屏幕上显示自定义内容，由通用脚本渲染
+# widgets:
+#   - name: "Widget Script 1"
+#     env:
+#       REGION: "cn"
+
+# 模块配置列表
+# modules:
+#   - name: "广告过滤"
+#     url: "https://example.com/module.yaml"
+#     update_interval: 86400
+#     enabled: true
+#   - url: "https://example.com/custom.yaml"
+#     compat_arguments:
+#       API_KEY: "your_api_key"
