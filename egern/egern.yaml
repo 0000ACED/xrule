@@ -82,9 +82,9 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
   upstreams:
-    # google:
-    #   - https://8.8.8.8/dns-query
-    #   - https://8.8.4.4/dns-query
+    #google:
+    #  - https://8.8.8.8/dns-query
+    #  - https://8.8.4.4/dns-query
     default:
       - https://doh.pub/dns-query
       - h3://dns.alidns.com/dns-query
@@ -114,32 +114,37 @@ policy_groups:
       name: 全部节点
       type: select
       urls:
-        - provider_url
+        -
       filter: ^
       update_interval: 86400
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/WorldMap.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/World_Map.png
       hidden: false
+
+  - select:
+      name: 节点选择
+      policies: [美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Static.png
 
   - select:
       name: 美国节点
       policies: [全部节点]
       flatten: true
       filter: "(?i)🇺🇸|美国|United\\s*States|America|\\bUSA?\\b|洛杉矶|硅谷|西雅图|芝加哥|达拉斯|凤凰城|阿什本|纽约|迈阿密|波士顿|休斯顿|亚特兰大|拉斯维加斯|圣地亚哥|盐湖城|奥斯汀|波特兰|丹佛|奥克兰|安大略|圣安娜|\\b(?:LAX|SJC|SFO|SEA|ORD|JFK|DFW|IAD|PHX|ATL|BOS|MIA|EWR|LGA|IAH|HOU|DEN|OAK|ONT|SNA|LAS|PDX|DAL|SAN|SLC|MSP)\\b"
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/UnitedStates.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/United_States.png
 
   - select:
       name: 日本节点
       policies: [全部节点]
       flatten: true
       filter: "(?i)🇯🇵|日本|东京|大阪|Japan|\\b(?:JPN?|NRT|HND|KIX|FUK|NGO|OSA|CTS|SDJ|OKA)\\b"
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Japan.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Japan.png
 
   - select:
       name: 欧洲节点
       policies: [全部节点]
       flatten: true
       filter: "(?i)🇪🇺|欧洲|EU|Europe|德国|法国|荷兰|英国|瑞士|DE|FR|NL|UK|GB|CH"
-      icon: https://raw.githubusercontent.com/0000ACED/xrule/main/image/European_Union.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/European_Union.png
 
   # - select:
   #     name: 其他节点
@@ -153,105 +158,100 @@ policy_groups:
   #         \b(?:LAX|SJC|SFO|SEA|ORD|JFK|DFW|IAD|PHX|ATL|BOS|MIA|EWR|LGA|IAH|HOU|DEN|OAK|ONT|SNA|LAS|PDX|DAL|SAN|SLC|MSP)\b|
   #         倍率|剩余|到期|流量|官网|订阅|测试|有效|禁止|邮箱|客服|地址|网站|群组
   #       ) ) .+ $
-  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/WorldMap.png
-
-  - select:
-      name: 节点选择
-      policies: [美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
-      icon: https://raw.githubusercontent.com/0000ACED/xrule/main/image/Static.png
+  #     icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/WorldMap.png
 
   - select:
       name: Apple
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Apple.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Apple.png
 
   - select:
       name: AIGC
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/ChatGPT.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/ChatGPT.png
 
   # - select:
   #     name: Bing
   #     policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
   #     flatten: false
-  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Bing.png
+  #     icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Bing.png
   # - select:
   #     name: Disney
   #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点]
   #     flatten: false
-  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Disney.png
+  #     icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Disney.png
   # - select:
   #     name: HBO
   #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点]
   #     flatten: false
-  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/HBO.png
+  #     icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/HBO.png
   # - select:
   #     name: Netflix
   #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点]
   #     flatten: false
-  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Netflix.png
+  #     icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Netflix.png
   - select:
       name: Spotify
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Spotify.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Spotify.png
   - select:
       name: TikTok
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/TikTok.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/TikTok.png
   # - select:
   #     name: YouTubeMusic
   #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
   #     flatten: false
-  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/YouTubeMusic.png
+  #     icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/YouTubeMusic.png
   - select:
       name: YouTube
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/YouTube.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/YouTube.png
   - select:
       name: GitHub
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/GitHub.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/GitHub.png
   - select:
       name: Google
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Google.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Google_Search.png
   # - select:
   #     name: Microsoft
   #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
   #     flatten: false
-  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Microsoft.png
+  #     icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Microsoft.png
   - select:
       name: PayPal
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/PayPal.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/PayPal.png
   - select:
       name: Telegram
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Telegram.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Telegram.png
   - select:
       name: Twitter
       policies: [节点选择, 美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/Twitter.png
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/Twitter.png
   # - select:
   #     name: WeChat
   #     policies: [美国节点, 欧洲节点, 日本节点, 全部节点, DIRECT]
   #     flatten: false
-  #     icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/WeChat.png
+  #     icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/WeChat.png
   - select:
       name: AdBlock
       policies: [REJECT, DIRECT]
       flatten: false
-      icon: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/image/AdBlock.png  
+      icon: https://raw.githubusercontent.com/0000ACED/Qure/refs/heads/master/IconSet/Color/AdBlack.png
 
 
 # 代理规则列表
@@ -261,28 +261,25 @@ rules:
       match: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/Egern/Rule/AdBlock.yaml
       policy: AdBlock
 
-  # 国内兜底
+  # 直连自定义
   - rule_set:
-      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/ChinaMax/ChinaMax.list
+      match: https://raw.githubusercontent.com/0000ACED/xrule/refs/heads/main/egern/rule/direct_custom.list
       policy: DIRECT
-  - geoip:
-      match: CN
+
+  # 国内
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Surge/China/China.list
       policy: DIRECT
-      no_resolve: true
 
   # 局域网与系统直连
   - rule_set:
       match: https://raw.githubusercontent.com/jnlaoshu/MySelf/main/Egern/Rule/Lan.yaml
       policy: DIRECT
-  - domain_suffix:
-      match: ntp.org
-      policy: DIRECT
-  - domain_suffix:
-      match: time.apple.com
-      policy: DIRECT
-  - domain_suffix:
-      match: time.android.com
-      policy: DIRECT
+
+  # 苹果服务
+  - rule_set:
+      match: https://raw.githubusercontent.com/0000ACED/xrule/refs/heads/main/egern/rule/apple_extra.list
+      policy: Apple
   - rule_set:
       match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Apple/Apple.list
       policy: Apple
@@ -337,6 +334,22 @@ rules:
   # - rule_set:
   #     match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/WeChat/WeChat.list
   #     policy: WeChat
+
+
+  # 自定义走代理
+  #  - rule_set:
+  #      match: https://raw.githubusercontent.com/0000ACED/xrule/refs/heads/main/egern/rule/proxy_custom.list
+  #      policy: 节点选择
+
+  # 国内兜底
+  - rule_set:
+      match: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/ChinaMax/ChinaMax.list
+      policy: DIRECT
+
+  - geoip:
+      match: CN
+      policy: DIRECT
+      no_resolve: true
 
   # 全局兜底
   - default:
