@@ -85,22 +85,13 @@ dns:
     #google:
     #  - https://8.8.8.8/dns-query
     #  - https://8.8.4.4/dns-query
-    default:
+    encrypted:
       - https://doh.pub/dns-query
-      - h3://dns.alidns.com/dns-query
+      - https://dns.alidns.com/dns-query
   forward:
     - domain_wildcard:
-        match: '*.cn'
-        value: bootstrap
-    - proxy_rule_set:
-        match: https://github.com/ACL4SSR/ACL4SSR/raw/master/Clash/ChinaDomain.list
-        value: bootstrap
-    # - regex:
-    #     match: ^ad\..*|^ads\..*
-    #     value: reject
-    - domain_wildcard:
         match: '*'
-        value: default
+        value: encrypted
   # hosts:
   #   localhost: 127.0.0.1
   # block_ips:
